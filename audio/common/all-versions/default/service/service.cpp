@@ -79,8 +79,10 @@ int main(int /* argc */, char* /* argv */ []) {
     // start a threadpool for vndbinder interactions
     ::android::ProcessState::self()->startThreadPool();
 
+#ifndef LEGACY_HIDL_AUDIO_SERVICE
     ABinderProcess_setThreadPoolMaxThreadCount(1);
     ABinderProcess_startThreadPool();
+#endif
 
     const int32_t defaultValue = -1;
     int32_t value =
@@ -101,6 +103,9 @@ int main(int /* argc */, char* /* argv */ []) {
             "android.hardware.audio@6.0::IDevicesFactory",
             "android.hardware.audio@5.0::IDevicesFactory",
             "android.hardware.audio@4.0::IDevicesFactory",
+#ifdef LEGACY_HIDL_AUDIO_SERVICE
+            "android.hardware.audio@2.0::IDevicesFactory",
+#endif
         },
         {
             "Audio Effect API",
@@ -108,6 +113,9 @@ int main(int /* argc */, char* /* argv */ []) {
             "android.hardware.audio.effect@6.0::IEffectsFactory",
             "android.hardware.audio.effect@5.0::IEffectsFactory",
             "android.hardware.audio.effect@4.0::IEffectsFactory",
+#ifdef LEGACY_HIDL_AUDIO_SERVICE
+            "android.hardware.audio.effect@2.0::IEffectsFactory",
+#endif
         }
     };
 

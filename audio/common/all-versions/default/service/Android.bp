@@ -13,14 +13,18 @@ soong_config_module_type {
     config_namespace: "android_hardware_audio",
     bool_variables: [
         "run_64bit",
+        "legacy_hidl",
     ],
-    properties: ["compile_multilib"],
+    properties: ["compile_multilib", "cflags"],
 }
 
 android_hardware_audio_config_default {
     name: "android_hardware_audio_config_defaults",
 
     soong_config_variables: {
+        legacy_hidl: {
+            cflags: ["-DLEGACY_HIDL_AUDIO_SERVICE"],
+        },
         run_64bit: {
             conditions_default: {
                 // Prefer 32 bit as the binary must always be installed at the same
